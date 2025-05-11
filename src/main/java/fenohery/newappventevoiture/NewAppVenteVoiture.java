@@ -4,15 +4,17 @@
 
 package fenohery.newappventevoiture;
 
-import ui.ClientUI;
-import ui.VoitureUI;
+import ui.DashboardUI;
+import utils.SplashScreen;
 
 public class NewAppVenteVoiture {
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(()-> {
-        new ClientUI().setVisible(true);
-        // new VoitureUI().setVisible(true);
-    });
-}
+            SplashScreen splash = new SplashScreen();
+            splash.showSplashAndLaunch(() -> {
+                new DashboardUI();
+            });
+        });
+    }
 }

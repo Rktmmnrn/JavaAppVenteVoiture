@@ -9,6 +9,7 @@ import utils.Connectiondb; // Connection a la bd
 
 import java.sql.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class ClientDAO {
     public void ajouterClient(Client client) {
@@ -69,8 +70,20 @@ public class ClientDAO {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, idcli);
             ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "CLient '"+idcli+"' suprimer avec succès");
         } catch (SQLException e) {
-            e.printStackTrace();
+                if (e.getSQLState().equals("23503")) { // Code PostgreSQL pour violation de clé étrangère
+                JOptionPane.showMessageDialog(null,
+                    "Impossible de supprimer cette client car elle est liée à un ou plusieurs achats.",
+                    "Suppression refusée",
+                    JOptionPane.WARNING_MESSAGE);
+            } else {
+                e.printStackTrace(); // autre erreur SQL
+                JOptionPane.showMessageDialog(null,
+                    "Erreur lors de la suppression : " + e.getMessage(),
+                    "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

@@ -12,9 +12,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import java.util.List;
 import java.awt.event.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.*;
 
-public class ClientUI extends javax.swing.JFrame {
+public class ClientUI extends JPanel {
     private JTextField txtId;
     private JTextField txtNom;
     private JTextField txtEmail;
@@ -27,26 +28,12 @@ public class ClientUI extends javax.swing.JFrame {
     private JButton btnAnnuler;
 
     public ClientUI() { // Constructeur
-        setTitle("Ajout Client");
         setLayout(new BorderLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 500);
-        setMinimumSize(new Dimension(500,400)); // taille minimum
-        setLocationRelativeTo(null); // centre la fenêtre
-
-        /*addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if(!table.getBounds().contains(e.getPoint())) {
-                    reinitialiserFormulaire();
-                }
-            }
-        });*/
+        add(new JLabel("Vue Client", SwingConstants.CENTER), BorderLayout.CENTER);
 
         initComponents();
         tableauClient();
         chargeClient();
-        setVisible(true);
     }
 
     private void reinitialiserFormulaire() { // reinitialisation
@@ -58,42 +45,47 @@ public class ClientUI extends javax.swing.JFrame {
     idClientSelectionne = null;
     }
 
-    private void initComponents() { // initialisation de tous les composants
-        txtId = new JTextField(20);
-        txtNom = new JTextField(20);
-        txtEmail = new JTextField(20);
-        btnAjouter = new JButton("Ajouter");
-        btnSuppr = new JButton("Supprimer");
-        btnAnnuler = new JButton("Annuler");
+    private void initComponents() {
+        txtId = new JTextField();
+        txtNom = new JTextField();
+        txtEmail = new JTextField();
+        btnAjouter = createButton("Ajouter", new Color(46, 204, 113));
+        btnSuppr = createButton("Supprimer", new Color(231, 76, 60));
+        btnAnnuler = createButton("Annuler", new Color(52, 152, 219));
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(5, 2, 4, 4));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new GridLayout(6, 2, 10, 10));
+        formPanel.setBorder(BorderFactory.createTitledBorder("Formulaire Client"));
 
-        panel.add(new JLabel("ID Client :"));
-        panel.add(txtId);
-        panel.add(new JLabel("Nom :"));
-        panel.add(txtNom);
-        panel.add(new JLabel("Email :"));
-        panel.add(txtEmail);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(btnAjouter);
-        panel.add(btnSuppr);
-        panel.add(btnAnnuler);
+        formPanel.add(new JLabel("ID Client:"));
+        formPanel.add(txtId);
+        formPanel.add(new JLabel("Nom:"));
+        formPanel.add(txtNom);
+        formPanel.add(new JLabel("Email:"));
+        formPanel.add(txtEmail);
+        formPanel.add(btnAjouter);
+        formPanel.add(btnSuppr);
+        formPanel.add(btnAnnuler);
 
-        btnAjouter.addActionListener(e -> {
-            btnAjouter(e);
-                }); // Ajout des données dans le bd
-        
-        btnSuppr.addActionListener(e -> {
-            supprClient(); // suppression d'un Client
-        });
+        JPanel actionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        actionsPanel.setBorder(new TitledBorder("Actions"));
+        actionsPanel.add(btnAjouter);
+        actionsPanel.add(btnSuppr);
+        actionsPanel.add(btnAnnuler);
 
-        btnAnnuler.addActionListener(e -> { // annuler modif
-            reinitialiserFormulaire();
-        });
+        add(formPanel, BorderLayout.NORTH);
+        add(actionsPanel, BorderLayout.SOUTH);
 
-        add(panel, BorderLayout.NORTH);
+        btnAjouter.addActionListener(e -> btnAjouter(e));
+        btnSuppr.addActionListener(e -> supprClient());
+        btnAnnuler.addActionListener(e -> reinitialiserFormulaire());
+    }
+
+    private JButton createButton(String text, Color bg) {
+        JButton btn = new JButton(text);
+        btn.setBackground(bg);
+        btn.setForeground(Color.WHITE);
+        return btn;
     }
 
     private void tableauClient() { // tableau Clients
@@ -131,7 +123,7 @@ public class ClientUI extends javax.swing.JFrame {
         add(sp, BorderLayout.CENTER);
     }
 
-    private void chargeClient() {
+    private void chargeClient() { // charger la liste des Clients
         tableModel.setRowCount(0);
         List<Client> client = new ClientDAO().getAllClient();
 
@@ -140,7 +132,7 @@ public class ClientUI extends javax.swing.JFrame {
         }
     }
 
-    private void btnAjouter(java.awt.event.ActionEvent evt) {
+    private void btnAjouter(java.awt.event.ActionEvent evt) { // boutton ajouter
             String id = txtId.getText();
             String nom = txtNom.getText();
             String email = txtEmail.getText();
@@ -167,7 +159,7 @@ public class ClientUI extends javax.swing.JFrame {
             txtEmail.setText("");
     }
 
-    private void supprClient() {
+    private void supprClient() { // supprimer Client
         int row = table.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "veuillez selectionner un Client à supprimer !");

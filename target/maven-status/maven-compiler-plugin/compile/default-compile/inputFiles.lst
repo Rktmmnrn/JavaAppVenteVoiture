@@ -1,8 +1,17 @@
+/home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/dao/AchatDAO.java
 /home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/dao/ClientDAO.java
+/home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/dao/VoitureDAO.java
 /home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/fenohery/newappventevoiture/NewAppVenteVoiture.java
+/home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/model/Achat.java
 /home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/model/Client.java
+/home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/model/Facture.java
+/home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/model/Voiture.java
+/home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/ui/AchatUI.java
 /home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/ui/ClientUI.java
+/home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/ui/DashboardUI.java
 /home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/ui/VoitureUI.java
 /home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/utils/Connectiondb.java
 /home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/utils/EmailSender.java
+/home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/utils/LoadingDialog.java
 /home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/utils/PDFGenerator.java
+/home/fenohery/NetBeansProjects/newAppVenteVoiture/src/main/java/utils/SplashScreen.java
