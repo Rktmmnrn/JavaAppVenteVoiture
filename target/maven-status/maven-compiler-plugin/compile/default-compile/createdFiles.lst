@@ -17,11 +17,13 @@ ui/ClientUI$2.class
 model/Facture.class
 dao/AchatDAO.class
 utils/SplashScreen.class
+ui/Acceuil.class
 model/Voiture.class
 ui/VoitureUI$3.class
 ui/ClientUI.class
 utils/Connectiondb.class
 utils/LoadingDialog.class
+ui/DashboardUI$2.class
 ui/ClientUI$1.class
 ui/AchatUI$2.class
 ui/VoitureUI$1.class

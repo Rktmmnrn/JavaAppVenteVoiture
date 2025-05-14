@@ -11,6 +11,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
 import javax.swing.JOptionPane;
+
 public class VoitureDAO {
     public void ajouterVoiture(Voiture voiture) {
         String sql = "INSERT INTO voiture (idvoit, design, prix, nombre) VALUES (?, ?, ?, ?)";
@@ -192,5 +193,20 @@ public class VoitureDAO {
             e.printStackTrace();
         }
         return voiture;
+    }
+
+    public int nbStockVoiture() {
+        int voit=0;
+        String sql = "SELECT SUM(nombre) FROM voiture";
+        try(Connection conn = Connectiondb.getconnection();
+                PreparedStatement prpr = conn.prepareStatement(sql);
+                ResultSet rs = prpr.executeQuery()) {
+            if(rs.next()) {
+                voit = rs.getInt(1);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return voit;
     }
 }

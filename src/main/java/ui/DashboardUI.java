@@ -4,6 +4,7 @@
  */
 package ui;
 
+import ui.Acceuil;
 import ui.ClientUI;
 import ui.VoitureUI;
 import ui.AchatUI;
@@ -27,25 +28,32 @@ public class DashboardUI extends JFrame {
         setLayout(new BorderLayout());
 
         // Menu boutons
-        JPanel menuPanel = new JPanel(new GridLayout(3, 1, 10, 10));
-        JButton btnClient = new JButton("Client");
-        JButton btnVoiture = new JButton("Voiture");
-        JButton btnAchat = new JButton("Achat");
+        JPanel menuPanel = new JPanel(new GridLayout(5, 1, 5, 5));
+        JButton btnAcceuil = new JButton();
+        JButton btnClient = new JButton();
+        JButton btnVoiture = new JButton();
+        JButton btnAchat = new JButton();
+        JButton quit = new JButton();
 
         // cree le style des btn
-        btnClient = createStyledButton("Client");
-        btnVoiture = createStyledButton("Voiture");
-        btnAchat = createStyledButton("Achat");
+        btnAcceuil = createStyledButton("Acceuil");
+        btnClient = createStyledButton("CLi");
+        btnVoiture = createStyledButton("VOIT");
+        btnAchat = createStyledButton("ACHAT");
+        quit = createStyledQuit("Quitter");
 
+        menuPanel.add(btnAcceuil);
         menuPanel.add(btnClient);
         menuPanel.add(btnVoiture);
         menuPanel.add(btnAchat);
+        menuPanel.add(quit);
         add(menuPanel, BorderLayout.WEST);
 
         // Panel central avec CardLayout
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
 
+        cardPanel.add(new Acceuil(), "Acceuil");
         cardPanel.add(new ClientUI(), "client");
         cardPanel.add(new VoitureUI(), "voiture");
         cardPanel.add(new AchatUI(), "achat");
@@ -53,20 +61,35 @@ public class DashboardUI extends JFrame {
         add(cardPanel, BorderLayout.CENTER);
 
         // Action des boutons
+        btnAcceuil.addActionListener(e -> chargerAvecLoading("Chargement Acceuils...", () -> {
+            JPanel acceuilPanel = new Acceuil();
+            SwingUtilities.invokeLater(() -> showInMainPanel(acceuilPanel));
+        }));
         btnClient.addActionListener(e -> chargerAvecLoading("Chargement des clients...", () -> {
-        JPanel clientPanel = new ClientUI();
-        SwingUtilities.invokeLater(() -> showInMainPanel(clientPanel));
+            JPanel clientPanel = new ClientUI();
+            SwingUtilities.invokeLater(() -> showInMainPanel(clientPanel));
         }));
         btnVoiture.addActionListener(e -> chargerAvecLoading("Chargement des voitures...", () -> {
-        JPanel voiturePanel = new VoitureUI();
-        SwingUtilities.invokeLater(() -> showInMainPanel(voiturePanel));
+            JPanel voiturePanel = new VoitureUI();
+            SwingUtilities.invokeLater(() -> showInMainPanel(voiturePanel));
         }));
         btnAchat.addActionListener(e -> chargerAvecLoading("Chargement des achats...", () -> {
-        JPanel achatPanel = new AchatUI();
-        SwingUtilities.invokeLater(() -> showInMainPanel(achatPanel));
+            JPanel achatPanel = new AchatUI();
+            SwingUtilities.invokeLater(() -> showInMainPanel(achatPanel));
         }));
+        // quitter l'application
+        quit.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(
+                null,
+                "Voulez-vous vraiment quitter l'application ?",
+                "Confirmation",
+                JOptionPane.YES_NO_OPTION
+            );
+            if (confirm == JOptionPane.YES_OPTION) {
+                System.exit(0);
+            }
+        });
 
-        // === AJOUT AUX COMPOSANTS ===
         add(menuPanel, BorderLayout.WEST);
         add(cardPanel, BorderLayout.CENTER);
 
@@ -76,26 +99,53 @@ public class DashboardUI extends JFrame {
     private JButton createStyledButton(String text) {
         JButton btn = new JButton(text);
         btn.setFocusPainted(false);
+        btn.setFont(new Font("Arial", Font.BOLD, 14));
         btn.setBackground(new Color(45, 45, 45));
         btn.setForeground(Color.WHITE);
-        btn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        btn.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Effet survol (hover)
         btn.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
-                btn.setBackground(new Color(70, 70, 70));
+                btn.setBackground(Color.LIGHT_GRAY);
+                btn.setForeground(new Color(45, 45, 45));
             }
 
             public void mouseExited(MouseEvent evt) {
                 btn.setBackground(new Color(45, 45, 45));
+                btn.setForeground(Color.WHITE);
+            }
+        });
+
+        return btn;
+    }
+    private JButton createStyledQuit(String text) {
+        JButton btn = new JButton(text);
+        btn.setFocusPainted(false);
+        btn.setFont(new Font("Arial", Font.BOLD, 14));
+        btn.setBackground(Color.RED);
+        btn.setForeground(Color.WHITE);
+        btn.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        // Effet survol (hover)
+        btn.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                btn.setBackground(Color.LIGHT_GRAY);
+                btn.setForeground(new Color(45, 45, 45));
+            }
+
+            public void mouseExited(MouseEvent evt) {
+                btn.setBackground(Color.RED);
+                btn.setForeground(Color.WHITE);
             }
         });
 
         return btn;
     }
 
-    // Méthode pour mettre à jour le contenu central
+    // mettre à jour le contenu central
     private void showInMainPanel(JPanel newPanel) {
         cardPanel.removeAll();
         cardPanel.add(newPanel, BorderLayout.CENTER);
@@ -103,6 +153,7 @@ public class DashboardUI extends JFrame {
         cardPanel.repaint();
     }
 
+    // loading
     public void chargerAvecLoading(String message, Runnable action) {
         LoadingDialog loading = new LoadingDialog(this, message);
 

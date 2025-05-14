@@ -183,4 +183,19 @@ public class AchatDAO {
         }
         return null;
     }
+
+    public int nbAchat() {
+        int achat=0;
+        String sql = "SELECT COUNT(*) FROM achat";
+        try(Connection conn = Connectiondb.getconnection();
+                PreparedStatement prpr = conn.prepareStatement(sql);
+                ResultSet rs = prpr.executeQuery()) {
+            if(rs.next()) {
+                achat = rs.getInt(1);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return achat;
+    }
 }

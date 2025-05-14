@@ -86,4 +86,20 @@ public class ClientDAO {
             }
         }
     }
+
+    public int getNbClient() {
+        int total=0;
+        String sql = "SELECT COUNT(*) FROM Client";
+        try(Connection conn = Connectiondb.getconnection();
+                PreparedStatement prpr = conn.prepareStatement(sql);
+                ResultSet rs = prpr.executeQuery()) {
+            if(rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return total;
+    }
 }

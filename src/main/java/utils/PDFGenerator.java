@@ -68,7 +68,7 @@ public class PDFGenerator {
 
             table.addCell(design); // 1er ligne
             table.addCell(""+qte);
-            table.addCell(""+qte);
+            table.addCell(""+prix);
             table.addCell(""+prix*qte);
             //table.addCell("2"); // 2em ligne
             //table.addCell("2_1");
@@ -76,7 +76,7 @@ public class PDFGenerator {
             //table.addCell("2_3");
 
             document.add(table);
-            document.add(new Paragraph("Arrêté par la présente facture à la somme de "));
+            document.add(new Paragraph("Arrêté par la présente facture à la somme de "+prix*qte));
 
             document.close();
             System.out.println("PDF générer succes...");

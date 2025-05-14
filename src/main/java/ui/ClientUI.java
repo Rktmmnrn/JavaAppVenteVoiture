@@ -55,7 +55,7 @@ public class ClientUI extends JPanel {
 
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridLayout(6, 2, 10, 10));
-        formPanel.setBorder(BorderFactory.createTitledBorder("Formulaire Client"));
+        formPanel.setBorder(BorderFactory.createTitledBorder("Formulaire d'ajout Client"));
 
         formPanel.add(new JLabel("ID Client:"));
         formPanel.add(txtId);
